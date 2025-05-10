@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import joblib
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
@@ -39,7 +40,9 @@ def index():
         }])
 
         # Carregando o modelo e fazendo a predição
-        model = joblib.load("model/students_habits_perfomance.pkl")
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        model_path = os.path.join(BASE_DIR, "model/students_habits_perfomance.pkl")
+        model = joblib.load(model_path)
         predicted = model.predict(dados)
         resultado = round(predicted[0], 2)
 
