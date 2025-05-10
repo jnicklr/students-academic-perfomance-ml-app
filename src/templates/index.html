@@ -1,11 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+    <style>
+        .result-box {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+    </style>
+    <title>Perfomance dos Estudantes</title>
 </head>
+
 <body>
-    Hello World!
+    {% if resultado %}
+    <div class="container">
+        <div class="result-box bg-light">
+            <h2>Resultado da Predição</h2>
+            <p class="text-muted">Com base nos dados fornecidos, o valor previsto foi:</p>
+            <div class="result-value" id="prediction-result">{{ resultado }}</div>
+            <p class="mt-3">Esse valor representa a estimativa da sua nota.</p>
+        </div>
+    </div>
+    {% else %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Formulário de Hábitos e Rotina</h2>
+        <p class="mb-4">A partir dos dados informados, será realizada uma previsão da sua provável nota no exame final.</p>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="study_hours_per_day" class="form-label">Horas de Estudo por Dia</label>
+                <input type="number" class="form-control" name="study_hours_per_day" id="study_hours_per_day" min="0"
+                    step="0.1" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="social_media_hours" class="form-label">Horas em Redes Sociais</label>
+                <input type="number" class="form-control" name="social_media_hours" id="social_media_hours" min="0"
+                    step="0.1" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="netflix_hours" class="form-label">Horas assistindo Netflix</label>
+                <input type="number" class="form-control" name="netflix_hours" id="netflix_hours" min="0" step="0.1"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label for="part_time_job" class="form-label">Trabalha?</label>
+                <select class="form-select" name="part_time_job" id="part_time_job" required>
+                    <option value="1">Sim</option>
+                    <option value="0" selected>Não</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="attendance_percentage" class="form-label">Porcentagem de Presença nas Aulas (%)</label>
+                <input type="number" class="form-control" name="attendance_percentage" id="attendance_percentage"
+                    min="0" max="100" step="1" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="sleep_hours" class="form-label">Horas de Sono por Noite</label>
+                <input type="number" class="form-control" name="sleep_hours" id="sleep_hours" min="0" step="0.1"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label for="diet_quality" class="form-label">Qualidade da Dieta</label>
+                <select class="form-select" name="diet_quality" id="diet_quality" required>
+                    <option value="2" selected>Ruim</option>
+                    <option value="0">Equilibrada</option>
+                    <option value="1">Boa</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="exercise_frequency" class="form-label">Frequência de Exercícios por Semana</label>
+                <input type="number" class="form-control" name="exercise_frequency" id="exercise_frequency" min="0"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label for="parental_education_level" class="form-label">Escolaridade dos Pais</label>
+                <select class="form-select" name="parental_education_level" id="parental_education_level" required>
+                    <option value="0" selected>Nenhuma</option>
+                    <option value="1">Ensino Médio</option>
+                    <option value="2">Bacharelado</option>
+                    <option value="3">Pós-Graduado</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="internet_quality" class="form-label">Qualidade da Internet</label>
+                <select class="form-select" name="internet_quality" id="internet_quality" required>
+                    <option value="2" selected>Ruim</option>
+                    <option value="1">Equilibrada</option>
+                    <option value="0">Boa</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="mental_health_rating" class="form-label">Avaliação da Saúde Mental (0 a 10)</label>
+                <input type="number" class="form-control" name="mental_health_rating" id="mental_health_rating" min="0"
+                    max="10" step="1" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="extracurricular_participation" class="form-label">Participa de Atividades
+                    Extracurriculares?</label>
+                <select class="form-select" name="extracurricular_participation" id="extracurricular_participation"
+                    required>
+                    <option value="1">Sim</option>
+                    <option value="0" selected>Não</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+
+    </div>
+    {% endif %}
 </body>
+
 </html>
